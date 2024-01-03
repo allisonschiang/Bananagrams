@@ -1,14 +1,8 @@
-import Tile from "../Tile/Tile"
-import { useState } from 'react';
+import Tile from "../Tile/Tile";
+import { useState } from "react";
 
-const FlipTileButton = ({onTileFlip}) => {
+const FlipTileButton = ({ onTileFlip }) => {
+  return <button onClick={onTileFlip}>Flip Tile</button>;
+};
 
-    
-    return (
-        <button onClick={onTileFlip}>Flip Tile</button>
-    );
-  };
-
-
-  
-  export default FlipTileButton;
+export default FlipTileButton;

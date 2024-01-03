@@ -1,13 +1,13 @@
-import './App.css';
-import Game from './components/Game/Game';
-
+import "./App.css";
+import Game from "./components/Game/Game";
 
 function App() {
-  fetch("http://localhost:8000").then(response => response.json()).then(data => console.log(data))
+  fetch("http://localhost:8000")
+    .then((response) => response.json())
+    .then((data) => console.log(data));
   return (
     <div className="App">
-      <Game/>
-      
+      <Game />
     </div>
   );
 }

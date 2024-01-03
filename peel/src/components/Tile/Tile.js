@@ -1,12 +1,10 @@
-import React from 'react';
-import './Tile.css'
+import React from "react";
+import "./Tile.css";
 
 // Functional Component
-const Tile = ({value}) => {
+const Tile = ({ value }) => {
   // Your component logic goes here
-  return (
-    <div className="tile">{value}</div>
-  );
+  return <div className="tile">{value}</div>;
 };
 
 export default Tile;
