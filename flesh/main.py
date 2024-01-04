@@ -2,9 +2,12 @@ from fastapi import APIRouter, FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from game import Game
+import asyncio
+import json
 
 app = FastAPI()
 
+game_instance = Game(users=1)
 
 origins = ["*"]
 
@@ -31,17 +34,11 @@ async def get():
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(f"Message text was: {data}")
-
-
-game_instance = Game(users=1)
-
-
-@app.get("/get_next_tile")
-async def get_next_tile():
-    tile = game_instance.flip_tile()
-    if tile:
-        return tile
-    else:
-        return None
+        data_json = await websocket.receive_text()
+        # convert to json
+        data = json.loads(data_json)
+        action = data["action"]
+        if action == "flip_tile":
+            print("PLAYING A TILE LOL!!!")
+            return_data = {"action":"flip_tile", "text": game_instance.flip_tile()}
+            await websocket.send_text(json.dumps(return_data))

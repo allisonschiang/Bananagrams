@@ -1,27 +1,31 @@
 import Tile from "../Tile/Tile";
 import FlipTileButton from "../FlipTileButton/FlipTileButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Game = () => {
   const [tiles, addTile] = useState([]);
 
-  const getTileValue = async () => {
-    try {
-      const response = fetch("http://localhost:8000/get_next_tile");
-      if (!response.ok) {
-        throw new Error("Network error");
-      }
-      const text = await response.text();
-      return text;
-    } catch (error) {
-      console.error("fetch error", error);
+  var ws = null;
+  var initialized = false;
+
+  if (!initialized) {
+    ws = new WebSocket("ws://localhost:8000/ws");
+  }
+  initialized = true;
+
+  ws.onmessage = function(event) {
+    let data = JSON.parse(event.data);
+    if (data["action"]=="flip_tile"){
+      const newTile = <Tile value={data["text"]} />;
+      addTile((prevTiles) => [...prevTiles, newTile]);
     }
+
   };
 
   const flipTile = async () => {
-    const value = await getTileValue();
-    const newTile = <Tile value={value} />;
-    addTile((prevTiles) => [...prevTiles, newTile]);
+    let data = {action: "flip_tile"}
+    let json = JSON.stringify(data)
+    ws.send(json)
   };
 
   return (

@@ -18,7 +18,7 @@ First, install the linter:
 ### Frontend (peel)
 
 ```sh
-cd peel
+cd peel.
 npm install
 ```
 
